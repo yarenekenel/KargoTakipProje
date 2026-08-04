@@ -1,0 +1,128 @@
+﻿@model KargoTakip.Core.Entity.Kargo
+@using KargoTakip.Core.Entity
+
+@{
+    ViewData["Title"] = "Kargo Detayı";
+    var durumGecmisi = ViewBag.DurumGecmisi as IEnumerable<KargoDurumGecmisi>;
+    var dosyalar = ViewBag.Dosyalar as IEnumerable<KargoDosya>;
+
+    var durumSecenekleri = new List<string>
+    {
+        "Hazırlanıyor", "Kargoya Verildi", "Yolda", "Teslim Edildi", "İade Sürecinde", "İade Edildi"
+    };
+}
+
+<div class="mb-4">
+    <a asp-action="Index" class="text-decoration-none">← Kargo Listesine Dön</a>
+</div>
+
+<div class="row g-4">
+    <!-- Sol Kolon: Kargo Bilgileri -->
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header">📦 Kargo Bilgileri</div>
+            <div class="card-body">
+                <p class="mb-2"><strong>Takip No:</strong> @Model.TakipNo</p>
+                <p class="mb-2"><strong>Gönderen:</strong> @Model.GonderenAdSoyad</p>
+                <p class="mb-2"><strong>Alıcı:</strong> @Model.AliciAdSoyad</p>
+                <p class="mb-2"><strong>Alıcı Mail:</strong> @Model.AliciMail</p>
+                <p class="mb-0"><strong>Oluşturma Tarihi:</strong> @Model.OlusturmaTarihi.ToString("dd.MM.yyyy HH:mm")</p>
+            </div>
+        </div>
+
+        <!-- Durum Güncelleme Formu -->
+        <div class="card mb-4">
+            <div class="card-header">🔄 Durum Güncelle</div>
+            <div class="card-body">
+                <form asp-action="DurumGuncelle" method="post">
+                    <input type="hidden" name="KargoId" value="@Model.KargoId" />
+                    <div class="mb-3">
+                        <label class="form-label">Yeni Durum</label>
+                        <select name="YeniDurum" class="form-select">
+                            @foreach (var durum in durumSecenekleri)
+                            {
+                                <option value="@durum" selected="@(durum == Model.MevcutDurum)">@durum</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Açıklama (Opsiyonel)</label>
+                        <textarea name="Aciklama" class="form-control" rows="2"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Durumu Güncelle ve Mail Gönder</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Dosya Yükleme Formu -->
+        <div class="card">
+            <div class="card-header">📎 Dosya / Fotoğraf Yükle</div>
+            <div class="card-body">
+                <form asp-action="DosyaYukle" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="KargoId" value="@Model.KargoId" />
+                    <div class="mb-3">
+                        <label class="form-label">Dosya Türü</label>
+                        <input type="text" name="DosyaTuru" class="form-control" placeholder="Örn: İade Fotoğrafı" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Dosya Seç</label>
+                        <input type="file" name="Dosya" class="form-control" />
+                    </div>
+                    <button type="submit" class="btn btn-outline-primary w-100">Yükle</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sağ Kolon: Durum Geçmişi + Dosyalar -->
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header">🕒 Durum Geçmişi</div>
+            <div class="card-body">
+                @if (durumGecmisi != null && durumGecmisi.Any())
+                {
+                    @foreach (var gecmis in durumGecmisi)
+                    {
+                        <div class="timeline-item">
+                            <strong>@gecmis.Durum</strong>
+                            <span class="text-muted ms-2">@gecmis.Tarih.ToString("dd.MM.yyyy HH:mm")</span>
+                            @if (!string.IsNullOrWhiteSpace(gecmis.Aciklama))
+                            {
+                                <p class="mb-0 text-muted">@gecmis.Aciklama</p>
+                            }
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted mb-0">Henüz durum geçmişi bulunmuyor.</p>
+                }
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">🖼️ Yüklenen Dosyalar</div>
+            <div class="card-body">
+                @if (dosyalar != null && dosyalar.Any())
+                {
+                    <div class="row g-3">
+                        @foreach (var dosya in dosyalar)
+                        {
+                            <div class="col-md-4">
+                                <div class="border rounded p-2 text-center">
+                                    <img src="@dosya.DosyaYolu" class="img-fluid rounded mb-2" style="max-height: 120px; object-fit: cover;" />
+                                    <p class="small text-muted mb-0">@dosya.DosyaTuru</p>
+                                    <p class="small text-muted">@dosya.YuklemeTarihi.ToString("dd.MM.yyyy")</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted mb-0">Henüz dosya yüklenmemiş.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

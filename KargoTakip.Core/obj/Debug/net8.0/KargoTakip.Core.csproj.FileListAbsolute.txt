@@ -1,0 +1,11 @@
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Core\bin\Debug\net8.0\KargoTakip.Core.deps.json
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Core\bin\Debug\net8.0\KargoTakip.Core.dll
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Core\bin\Debug\net8.0\KargoTakip.Core.pdb
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Core\obj\Debug\net8.0\KargoTakip.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Core\obj\Debug\net8.0\KargoTakip.Core.AssemblyInfoInputs.cache
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Core\obj\Debug\net8.0\KargoTakip.Core.AssemblyInfo.cs
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Core\obj\Debug\net8.0\KargoTakip.Core.csproj.CoreCompileInputs.cache
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Core\obj\Debug\net8.0\KargoTakip.Core.dll
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Core\obj\Debug\net8.0\refint\KargoTakip.Core.dll
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Core\obj\Debug\net8.0\KargoTakip.Core.pdb
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Core\obj\Debug\net8.0\ref\KargoTakip.Core.dll

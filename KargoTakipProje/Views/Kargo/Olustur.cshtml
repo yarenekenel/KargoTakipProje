@@ -1,0 +1,51 @@
+﻿@model KargoTakipProje.Models.KargoOlusturViewModel
+
+@{
+    ViewData["Title"] = "Yeni Kargo Oluştur";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-header">
+                ➕ Yeni Kargo Oluştur
+            </div>
+            <div class="card-body p-4">
+                <form asp-action="Olustur" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Takip Numarası</label>
+                        <input type="text" class="form-control" asp-for="TakipNo" placeholder="Örn: TR123456789" />
+                        <span asp-validation-for="TakipNo" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Gönderen Ad Soyad</label>
+                        <input type="text" class="form-control" asp-for="GonderenAdSoyad" />
+                        <span asp-validation-for="GonderenAdSoyad" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Alıcı Ad Soyad</label>
+                        <input type="text" class="form-control" asp-for="AliciAdSoyad" />
+                        <span asp-validation-for="AliciAdSoyad" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Alıcı Mail Adresi</label>
+                        <input type="email" class="form-control" asp-for="AliciMail" placeholder="ornek@mail.com" />
+                        <span asp-validation-for="AliciMail" class="text-danger small"></span>
+                        <small class="text-muted d-block">Durum güncellemeleri bu adrese gönderilecektir.</small>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <a asp-action="Index" class="btn btn-outline-secondary">Vazgeç</a>
+                        <button type="submit" class="btn btn-primary">Kargoyu Oluştur</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
