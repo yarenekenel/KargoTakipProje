@@ -1,0 +1,15 @@
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Data\bin\Debug\net8.0\KargoTakip.Data.deps.json
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Data\bin\Debug\net8.0\KargoTakip.Data.dll
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Data\bin\Debug\net8.0\KargoTakip.Data.pdb
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Data\bin\Debug\net8.0\KargoTakip.Core.dll
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Data\bin\Debug\net8.0\KargoTakip.Core.pdb
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Data\obj\Debug\net8.0\KargoTakip.Data.csproj.AssemblyReference.cache
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Data\obj\Debug\net8.0\KargoTakip.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Data\obj\Debug\net8.0\KargoTakip.Data.AssemblyInfoInputs.cache
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Data\obj\Debug\net8.0\KargoTakip.Data.AssemblyInfo.cs
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Data\obj\Debug\net8.0\KargoTakip.Data.csproj.CoreCompileInputs.cache
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Data\obj\Debug\net8.0\KargoTak.963AA0F7.Up2Date
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Data\obj\Debug\net8.0\KargoTakip.Data.dll
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Data\obj\Debug\net8.0\refint\KargoTakip.Data.dll
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Data\obj\Debug\net8.0\KargoTakip.Data.pdb
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Data\obj\Debug\net8.0\ref\KargoTakip.Data.dll

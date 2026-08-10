@@ -1,0 +1,226 @@
+﻿@model KargoTakip.Core.Entity.Kargo
+@using KargoTakip.Core.Entity
+
+@{
+    ViewData["Title"] = "Kargo Detayı";
+    var durumGecmisi = ViewBag.DurumGecmisi as IEnumerable<KargoDurumGecmisi>;
+    var dosyalar = ViewBag.Dosyalar as IEnumerable<KargoDosya>;
+    var loglar = ViewBag.Loglar as IEnumerable<KargoLog>;
+
+    var durumSecenekleri = new List<string>
+{
+    "Hazırlanıyor", "Kargoya Verildi", "Yolda", "Teslim Edildi", "İade Sürecinde", "İade Edildi", "İptal Edildi"
+};
+}
+
+<div class="mb-4">
+    <a asp-action="Index" class="text-decoration-none">← Kargo Listesine Dön</a>
+</div>
+
+<div class="row g-4">
+    <!-- Sol Kolon: Kargo Bilgileri -->
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header">📦 Kargo Bilgileri</div>
+            <div class="card-body">
+                <p class="mb-2 d-flex justify-content-between align-items-center">
+                    <span><strong>Takip No:</strong> @Model.TakipNo</span>
+                    <button type="button" class="btn btn-sm btn-link p-0" data-bs-toggle="collapse" data-bs-target="#takipNoDuzenleForm">Düzenle</button>
+                </p>
+                <div class="collapse mb-2" id="takipNoDuzenleForm">
+                    <form asp-action="TakipNoDuzenle" method="post" class="d-flex gap-2">
+                        <input type="hidden" name="kargoId" value="@Model.KargoId" />
+                        <input type="text" name="yeniTakipNo" class="form-control form-control-sm" value="@Model.TakipNo" required />
+                        <button type="submit" class="btn btn-sm btn-outline-primary">Kaydet</button>
+                    </form>
+                </div>
+                <p class="mb-2"><strong>Gönderen:</strong> @Model.GonderenAdSoyad</p>
+                <p class="mb-2"><strong>Alıcı:</strong> @Model.AliciAdSoyad</p>
+                <p class="mb-2"><strong>Alıcı Mail:</strong> @Model.AliciMail</p>
+                <p class="mb-0"><strong>Oluşturma Tarihi:</strong> @Model.OlusturmaTarihi.ToString("dd.MM.yyyy HH:mm")</p>
+            </div>
+        </div>
+
+        <!-- Durum Güncelleme Formu -->
+        <div class="card mb-4">
+            <div class="card-header">🔄 Durum Güncelle</div>
+            <div class="card-body">
+                <form asp-action="DurumGuncelle" method="post">
+                    <input type="hidden" name="KargoId" value="@Model.KargoId" />
+                    <div class="mb-3">
+                        <label class="form-label">Yeni Durum</label>
+                        <select name="YeniDurum" class="form-select">
+                            @foreach (var durum in durumSecenekleri)
+                            {
+                                <option value="@durum" selected="@(durum == Model.MevcutDurum)">@durum</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Açıklama (Opsiyonel)</label>
+                        <textarea name="Aciklama" class="form-control" rows="2"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Durumu Güncelle ve Mail Gönder</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Dosya Yükleme Formu (Admin) -->
+        <div class="card">
+            <div class="card-header">📎 Dosya / Fotoğraf Yükle</div>
+            <div class="card-body">
+                <form asp-action="DosyaYukle" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="KargoId" value="@Model.KargoId" />
+                    <div class="mb-3">
+                        <label class="form-label">Dosya Türü</label>
+                        <input type="text" name="DosyaTuru" class="form-control" placeholder="Örn: İade Fotoğrafı" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Dosya Seç</label>
+                        <input type="file" name="Dosya" class="form-control" />
+                    </div>
+                    <button type="submit" class="btn btn-outline-primary w-100">Yükle</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sağ Kolon: Durum Geçmişi + Dosyalar + Loglar -->
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header">🕒 Durum Geçmişi</div>
+            <div class="card-body">
+                @if (durumGecmisi != null && durumGecmisi.Any())
+                {
+                    @foreach (var gecmis in durumGecmisi)
+                    {
+                        <div class="timeline-item">
+                            <strong>@gecmis.Durum</strong>
+                            <span class="text-muted ms-2">@gecmis.Tarih.ToString("dd.MM.yyyy HH:mm")</span>
+                            @if (!string.IsNullOrWhiteSpace(gecmis.Aciklama))
+                            {
+                                <p class="mb-0 text-muted">@gecmis.Aciklama</p>
+                            }
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted mb-0">Henüz durum geçmişi bulunmuyor.</p>
+                }
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">🖼️ Yüklenen Dosyalar</div>
+            <div class="card-body">
+                @if (dosyalar != null && dosyalar.Any())
+                {
+                    <div class="row g-3">
+                        @foreach (var dosya in dosyalar)
+                        {
+                            <div class="col-md-4">
+                                <div class="border rounded p-2 text-center">
+                                    <img src="@dosya.DosyaYolu" class="img-fluid rounded mb-2" style="max-height: 120px; object-fit: cover;" />
+                                    <p class="small text-muted mb-0">@dosya.DosyaTuru</p>
+                                    <p class="small text-muted mb-2">@dosya.YuklemeTarihi.ToString("dd.MM.yyyy")</p>
+                                    <form asp-action="DosyaSil" method="post" class="dosya-sil-form">
+                                        <input type="hidden" name="kargoDosyaId" value="@dosya.KargoDosyaId" />
+                                        <input type="hidden" name="kargoId" value="@Model.KargoId" />
+                                        <button type="button" class="btn btn-sm btn-outline-danger w-100 dosya-sil-btn">🗑️ Sil</button>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted mb-0">Henüz dosya yüklenmemiş.</p>
+                }
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>⚠️ Log Kayıtları</span>
+                <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="collapse" data-bs-target="#logEkleForm">
+                    + Manuel Log Ekle
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="collapse mb-4" id="logEkleForm">
+                    <form asp-action="LogEkle" method="post" class="border rounded p-3 bg-light">
+                        <input type="hidden" name="kargoId" value="@Model.KargoId" />
+                        <div class="mb-2">
+                            <label class="form-label small">Log Türü</label>
+                            <select name="logTuru" class="form-select form-select-sm" required>
+                                <option value="">-- Seçiniz --</option>
+                                <option value="Kargocu Teslim Alamadı">Kargocu Teslim Alamadı</option>
+                                <option value="Adreste Bulunamadı">Adreste Bulunamadı</option>
+                                <option value="Yanlış Adres">Yanlış Adres</option>
+                                <option value="Hasarlı Ürün">Hasarlı Ürün</option>
+                                <option value="Müşteriye Ulaşılamadı">Müşteriye Ulaşılamadı</option>
+                                <option value="Diğer">Diğer</option>
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label small">Açıklama</label>
+                            <textarea name="aciklama" class="form-control form-control-sm" rows="2" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-sm btn-dark">Kaydet</button>
+                    </form>
+                </div>
+
+                @if (loglar != null && loglar.Any())
+                {
+                    @foreach (var log in loglar)
+                    {
+                        var alertClass = log.LogTuru switch
+                        {
+                            "İade Gecikmesi" => "alert-danger",
+                            "Teslimat Gecikmesi" => "alert-danger",
+                            "Yolda Gecikmesi" => "alert-danger",
+                            _ => "alert-warning"
+                        };
+
+                        <div class="alert @alertClass py-2 mb-2">
+                            <strong>@log.LogTuru</strong>
+                            <span class="text-muted small ms-2">@log.Tarih.ToString("dd.MM.yyyy HH:mm")</span>
+                            <p class="mb-0 small">@log.Aciklama</p>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted mb-0">Herhangi bir log kaydı bulunmuyor.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('.dosya-sil-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const form = btn.closest('form');
+
+                Swal.fire({
+                    title: 'Emin misiniz?',
+                    text: "Bu dosya kalıcı olarak silinecek.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc2626',
+                    cancelButtonColor: '#6b7280',
+                    confirmButtonText: 'Evet, sil',
+                    cancelButtonText: 'Vazgeç'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+}

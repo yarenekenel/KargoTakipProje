@@ -1,0 +1,17 @@
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Service\bin\Debug\net8.0\KargoTakip.Service.deps.json
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Service\bin\Debug\net8.0\KargoTakip.Service.dll
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Service\bin\Debug\net8.0\KargoTakip.Service.pdb
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Service\bin\Debug\net8.0\KargoTakip.Core.dll
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Service\bin\Debug\net8.0\KargoTakip.Data.dll
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Service\bin\Debug\net8.0\KargoTakip.Core.pdb
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Service\bin\Debug\net8.0\KargoTakip.Data.pdb
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Service\obj\Debug\net8.0\KargoTakip.Service.csproj.AssemblyReference.cache
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Service\obj\Debug\net8.0\KargoTakip.Service.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Service\obj\Debug\net8.0\KargoTakip.Service.AssemblyInfoInputs.cache
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Service\obj\Debug\net8.0\KargoTakip.Service.AssemblyInfo.cs
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Service\obj\Debug\net8.0\KargoTakip.Service.csproj.CoreCompileInputs.cache
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Service\obj\Debug\net8.0\KargoTak.7756F517.Up2Date
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Service\obj\Debug\net8.0\KargoTakip.Service.dll
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Service\obj\Debug\net8.0\refint\KargoTakip.Service.dll
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Service\obj\Debug\net8.0\KargoTakip.Service.pdb
+C:\Users\Berkay Özenel\source\repos\KargoTakipProje\KargoTakip.Service\obj\Debug\net8.0\ref\KargoTakip.Service.dll

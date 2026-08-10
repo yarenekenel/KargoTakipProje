@@ -1,0 +1,162 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+:root {
+    --primary-color: #4f46e5;
+    --primary-hover: #4338ca;
+    --success-color: #16a34a;
+    --warning-color: #d97706;
+    --danger-color: #dc2626;
+    --bg-light: #f8f9fc;
+    --card-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+body {
+    background-color: var(--bg-light);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+}
+
+.card-header {
+    background-color: white;
+    border-bottom: 1px solid #eef0f5;
+    border-radius: 12px 12px 0 0 !important;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+    .btn-primary:hover {
+        background-color: var(--primary-hover);
+        border-color: var(--primary-hover);
+    }
+
+.badge-durum {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.badge-hazirlaniyor {
+    background-color: #e0e7ff;
+    color: #4338ca;
+}
+
+.badge-kargoyaverildi {
+    background-color: #dbeafe;
+    color: #1d4ed8;
+}
+
+.badge-yolda {
+    background-color: #fef3c7;
+    color: #b45309;
+}
+
+.badge-teslimedildi {
+    background-color: #dcfce7;
+    color: #15803d;
+}
+
+.badge-iadesurecinde {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+.badge-iadeedildi {
+    background-color: #f3e8ff;
+    color: #7e22ce;
+}
+.badge-iptaledildi {
+    background-color: #f3f4f6;
+    color: #6b7280;
+}
+
+.table thead th {
+    border-bottom: 2px solid #eef0f5;
+    font-weight: 600;
+    color: #6b7280;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+.timeline-item {
+    border-left: 3px solid var(--primary-color);
+    padding-left: 16px;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -8px;
+        top: 2px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+    }
+
+.hero-section {
+    background: linear-gradient(135deg, #f8f9fc 0%, #eef0ff 100%);
+    border-radius: 16px;
+}
+
+.landing-card {
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .landing-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(79, 70, 229, 0.12);
+    }
+
+.feature-box {
+    padding: 20px;
+}
+.stat-box {
+    padding: 24px;
+}
+
+.stat-number {
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--primary-color);
+    line-height: 1;
+    margin-bottom: 8px;
+}

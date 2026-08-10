@@ -1,0 +1,101 @@
+﻿@model KargoTakip.Core.Entity.Kargo
+@using KargoTakip.Core.Entity
+@{
+    ViewData["Title"] = "Kargo Takip Sonucu";
+    var durumGecmisi = ViewBag.DurumGecmisi as IEnumerable<KargoDurumGecmisi>;
+    var dosyalar = ViewBag.Dosyalar as IEnumerable<KargoDosya>;
+}
+
+<div class="mb-4">
+    <a asp-action="MusteriTakip" class="text-decoration-none">← Başka Bir Kargo Sorgula</a>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-5">
+        <div class="card mb-4">
+            <div class="card-header">📦 Kargo Bilgileri</div>
+            <div class="card-body">
+                <p class="mb-2"><strong>Takip No:</strong> @Model.TakipNo</p>
+                <p class="mb-2"><strong>Alıcı:</strong> @Model.AliciAdSoyad</p>
+                <p class="mb-0">
+                    <strong>Güncel Durum:</strong>
+                    @{
+                        var badgeClass = Model.MevcutDurum switch
+                        {
+                            "Hazırlanıyor" => "badge-hazirlaniyor",
+                            "Kargoya Verildi" => "badge-kargoyaverildi",
+                            "Yolda" => "badge-yolda",
+                            "Teslim Edildi" => "badge-teslimedildi",
+                            "İade Sürecinde" => "badge-iadesurecinde",
+                            "İade Edildi" => "badge-iadeedildi",
+                            _ => "badge-hazirlaniyor"
+                        };
+                    }
+                    <span class="badge-durum @badgeClass">@Model.MevcutDurum</span>
+                </p>
+            </div>
+        </div>
+
+        @if (Model.MevcutDurum == "İade Sürecinde")
+        {
+            <div class="card">
+                <div class="card-header">📎 İade Fotoğrafı Yükle</div>
+                <div class="card-body">
+                    <p class="small text-muted">Kargonuz iade sürecinde. Lütfen ürünün mevcut durumunu gösteren bir fotoğraf yükleyin.</p>
+                    <form asp-action="DosyaYukle" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="KargoId" value="@Model.KargoId" />
+                        <input type="hidden" name="DosyaTuru" value="İade Fotoğrafı" />
+                        <div class="mb-3">
+                            <input type="file" name="Dosya" class="form-control" required />
+                        </div>
+                        <button type="submit" class="btn btn-outline-primary w-100">Yükle</button>
+                    </form>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-light border text-muted small mb-0">
+                Fotoğraf yükleme yalnızca kargonuz "İade Sürecinde" durumundayken kullanılabilir.
+            </div>
+        }
+    </div>
+
+    <div class="col-md-7">
+        <div class="card mb-4">
+            <div class="card-header">🕒 Durum Geçmişi</div>
+            <div class="card-body">
+                @if (durumGecmisi != null && durumGecmisi.Any())
+                {
+                    @foreach (var gecmis in durumGecmisi)
+                    {
+                        <div class="timeline-item">
+                            <strong>@gecmis.Durum</strong>
+                            <span class="text-muted ms-2">@gecmis.Tarih.ToString("dd.MM.yyyy HH:mm")</span>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+        @if (dosyalar != null && dosyalar.Any())
+        {
+            <div class="card">
+                <div class="card-header">🖼️ Yüklenen Fotoğraflar</div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        @foreach (var dosya in dosyalar)
+                        {
+                            <div class="col-md-4">
+                                <div class="border rounded p-2 text-center">
+                                    <img src="@dosya.DosyaYolu" class="img-fluid rounded mb-2" style="max-height: 120px; object-fit: cover;" />
+                                    <p class="small text-muted mb-0">@dosya.DosyaTuru</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

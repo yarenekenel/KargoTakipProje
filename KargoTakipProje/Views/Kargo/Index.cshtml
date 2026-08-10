@@ -1,0 +1,185 @@
+﻿@model KargoTakipProje.Models.KargoFiltreViewModel
+
+@{
+    ViewData["Title"] = "Kargolar";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="mb-0">📦 Kargo Listesi</h3>
+    <a asp-action="Olustur" class="btn btn-primary">+ Yeni Kargo Oluştur</a>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form asp-action="Index" method="get" class="row g-2 align-items-end">
+            <div class="col-md-6">
+                <label class="form-label small">Ara (Takip No / Alıcı / Gönderen)</label>
+                <input type="text" name="aramaMetni" class="form-control" value="@Model.AramaMetni" placeholder="Örn: TR2026000001 veya Ahmet Yılmaz" />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label small">Durum</label>
+                <select name="durumFiltre" class="form-select">
+                    <option value="">Tüm Durumlar</option>
+                    <option value="Hazırlanıyor" selected="@(Model.DurumFiltre == "Hazırlanıyor")">Hazırlanıyor</option>
+                    <option value="Kargoya Verildi" selected="@(Model.DurumFiltre == "Kargoya Verildi")">Kargoya Verildi</option>
+                    <option value="Yolda" selected="@(Model.DurumFiltre == "Yolda")">Yolda</option>
+                    <option value="Teslim Edildi" selected="@(Model.DurumFiltre == "Teslim Edildi")">Teslim Edildi</option>
+                    <option value="İade Sürecinde" selected="@(Model.DurumFiltre == "İade Sürecinde")">İade Sürecinde</option>
+                    <option value="İade Edildi" selected="@(Model.DurumFiltre == "İade Edildi")">İade Edildi</option>
+                    <option value="İptal Edildi" selected="@(Model.DurumFiltre == "İptal Edildi")">İptal Edildi</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Filtrele</button>
+            </div>
+        </form>
+        @if (!string.IsNullOrWhiteSpace(Model.AramaMetni) || !string.IsNullOrWhiteSpace(Model.DurumFiltre))
+        {
+            <a asp-action="Index" class="small text-muted d-inline-block mt-2">✕ Filtreyi Temizle</a>
+        }
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th class="ps-4">Takip No</th>
+                    <th>Gönderen</th>
+                    <th>Alıcı</th>
+                    <th>Alıcı Mail</th>
+                    <th>Durum</th>
+                    <th>Oluşturma Tarihi</th>
+                    <th class="text-end pe-4">İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var kargo in Model.Kargolar)
+                {
+                    <tr>
+                        <td class="ps-4 fw-semibold">@kargo.TakipNo</td>
+                        <td>@kargo.GonderenAdSoyad</td>
+                        <td>@kargo.AliciAdSoyad</td>
+                        <td>@kargo.AliciMail</td>
+                        <td>
+                            @{
+                                var badgeClass = kargo.MevcutDurum switch
+                                {
+                                    "Hazırlanıyor" => "badge-hazirlaniyor",
+                                    "Kargoya Verildi" => "badge-kargoyaverildi",
+                                    "Yolda" => "badge-yolda",
+                                    "Teslim Edildi" => "badge-teslimedildi",
+                                    "İade Sürecinde" => "badge-iadesurecinde",
+                                    "İade Edildi" => "badge-iadeedildi",
+                                    "İptal Edildi" => "badge-iptaledildi",
+                                    _ => "badge-hazirlaniyor"
+                                };
+                            }
+                            <span class="badge-durum @badgeClass">@kargo.MevcutDurum</span>
+                        </td>
+                        <td>@kargo.OlusturmaTarihi.ToString("dd.MM.yyyy HH:mm")</td>
+                        <td class="text-end pe-4">
+                            <a asp-action="Detay" asp-route-id="@kargo.KargoId" class="btn btn-sm btn-outline-primary">Detay</a>
+                            @if (kargo.MevcutDurum != "İptal Edildi" && kargo.MevcutDurum != "Teslim Edildi")
+                            {
+                                <button type="button" class="btn btn-sm btn-outline-danger kargo-iptal-btn" data-kargo-id="@kargo.KargoId">İptal Et</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@if (Model.ToplamSayfa > 1)
+{
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(Model.SayfaNo == 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="Index"
+                   asp-route-aramaMetni="@Model.AramaMetni"
+                   asp-route-durumFiltre="@Model.DurumFiltre"
+                   asp-route-sayfaNo="@(Model.SayfaNo - 1)">← Önceki</a>
+            </li>
+
+            @for (int i = 1; i <= Model.ToplamSayfa; i++)
+            {
+                <li class="page-item @(i == Model.SayfaNo ? "active" : "")">
+                    <a class="page-link" asp-action="Index"
+                       asp-route-aramaMetni="@Model.AramaMetni"
+                       asp-route-durumFiltre="@Model.DurumFiltre"
+                       asp-route-sayfaNo="@i">@i</a>
+                </li>
+            }
+
+            <li class="page-item @(Model.SayfaNo == Model.ToplamSayfa ? "disabled" : "")">
+                <a class="page-link" asp-action="Index"
+                   asp-route-aramaMetni="@Model.AramaMetni"
+                   asp-route-durumFiltre="@Model.DurumFiltre"
+                   asp-route-sayfaNo="@(Model.SayfaNo + 1)">Sonraki →</a>
+            </li>
+        </ul>
+    </nav>
+    <p class="text-center text-muted small">Toplam @Model.ToplamKayit kayıttan @Model.Kargolar.Count() tanesi gösteriliyor (Sayfa @Model.SayfaNo / @Model.ToplamSayfa)</p>
+}
+
+@if (!Model.Kargolar.Any())
+{
+    <div class="text-center text-muted mt-5">
+        <p>Kriterlere uygun kargo bulunamadı.</p>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('.kargo-iptal-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const kargoId = btn.getAttribute('data-kargo-id');
+
+                Swal.fire({
+                    title: 'Kargoyu iptal etmek istediğinize emin misiniz?',
+                    text: "Bu işlem kargonun durumunu 'İptal Edildi' olarak değiştirecektir.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc2626',
+                    cancelButtonColor: '#6b7280',
+                    confirmButtonText: 'Evet, iptal et',
+                    cancelButtonText: 'Vazgeç'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = '/Kargo/KargoIptal';
+
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = 'kargoId';
+                        input.value = kargoId;
+
+                        form.appendChild(input);
+                        document.body.appendChild(form);
+                        form.submit();
+                    }
+                });
+            });
+        });
+
+        // Canlı arama: kullanıcı yazdıkça otomatik filtrele
+        const aramaInput = document.querySelector('input[name="aramaMetni"]');
+        const durumSelect = document.querySelector('select[name="durumFiltre"]');
+        const filtreForm = aramaInput.closest('form');
+
+        let aramaTimeout;
+        aramaInput.addEventListener('input', function () {
+            clearTimeout(aramaTimeout);
+            aramaTimeout = setTimeout(function () {
+                filtreForm.submit();
+            }, 500);
+        });
+
+        durumSelect.addEventListener('change', function () {
+            filtreForm.submit();
+        });
+    </script>
+}
